@@ -9,7 +9,7 @@ typedef Widget ScrollThumbBuilder(
   Animation<double> thumbAnimation,
   Animation<double> labelAnimation,
   double height, {
-  Text labelText,
+  Widget labelText,
   BoxConstraints labelConstraints,
 });
 
@@ -132,7 +132,7 @@ class DraggableScrollbar extends StatefulWidget {
       @required Color backgroundColor,
       @required Animation<double> thumbAnimation,
       @required Animation<double> labelAnimation,
-      @required Text labelText,
+      @required Widget labelText,
       @required BoxConstraints labelConstraints,
       @required bool alwaysVisibleScrollThumb}) {
     var scrollThumbAndLabel = labelText == null
@@ -167,7 +167,7 @@ class DraggableScrollbar extends StatefulWidget {
       Animation<double> thumbAnimation,
       Animation<double> labelAnimation,
       double height, {
-      Text labelText,
+      Widget labelText,
       BoxConstraints labelConstraints,
     }) {
       final scrollThumb = CustomPaint(
@@ -207,7 +207,7 @@ class DraggableScrollbar extends StatefulWidget {
       Animation<double> thumbAnimation,
       Animation<double> labelAnimation,
       double height, {
-      Text labelText,
+      Widget labelText,
       BoxConstraints labelConstraints,
     }) {
       final scrollThumb = ClipPath(
@@ -243,7 +243,7 @@ class DraggableScrollbar extends StatefulWidget {
       Animation<double> thumbAnimation,
       Animation<double> labelAnimation,
       double height, {
-      Text labelText,
+      Widget labelText,
       BoxConstraints labelConstraints,
     }) {
       final scrollThumb = Material(
@@ -273,7 +273,7 @@ class DraggableScrollbar extends StatefulWidget {
 class ScrollLabel extends StatelessWidget {
   final Animation<double> animation;
   final Color backgroundColor;
-  final Text child;
+  final Widget child;
 
   final BoxConstraints constraints;
   static const BoxConstraints _defaultConstraints =
@@ -323,7 +323,7 @@ class _DraggableScrollbarState extends State<DraggableScrollbar>
   @override
   void initState() {
     super.initState();
-    _barOffset = 135.0;
+    _barOffset = 140.0;
     _viewOffset = 0.0;
     _isDragInProcess = false;
 
@@ -358,7 +358,7 @@ class _DraggableScrollbarState extends State<DraggableScrollbar>
   double get barMaxScrollExtent =>
       context.size.height - widget.heightScrollThumb;
 
-  double get barMinScrollExtent => 0;
+  double get barMinScrollExtent => 140.0;
 
   double get viewMaxScrollExtent => widget.controller.position.maxScrollExtent;
 
@@ -435,8 +435,8 @@ class _DraggableScrollbarState extends State<DraggableScrollbar>
         }
 
         _viewOffset += notification.scrollDelta;
-        if (_viewOffset < widget.controller.position.minScrollExtent) {
-          _viewOffset = widget.controller.position.minScrollExtent;
+        if (_viewOffset < viewMinScrollExtent) {
+          _viewOffset = viewMinScrollExtent;
         }
         if (_viewOffset > viewMaxScrollExtent) {
           _viewOffset = viewMaxScrollExtent;
@@ -499,7 +499,7 @@ class _DraggableScrollbarState extends State<DraggableScrollbar>
         }
 
         double viewDelta = getScrollViewDelta(
-            details.delta.dy, barMaxScrollExtent, viewMaxScrollExtent);
+            details.delta.dy, barMaxScrollExtent - 140, viewMaxScrollExtent);
 
         _viewOffset = widget.controller.position.pixels + viewDelta;
         if (_viewOffset < widget.controller.position.minScrollExtent) {
