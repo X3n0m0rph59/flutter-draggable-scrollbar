@@ -14,13 +14,13 @@ typedef Widget ScrollThumbBuilder(
 });
 
 /// Build a Text widget using the current scroll offset
-typedef Text LabelTextBuilder(double offsetY);
+typedef FutureBuilder<Text> LabelTextBuilder(double offsetY);
 
 /// A widget that will display a BoxScrollView with a ScrollThumb that can be dragged
 /// for quick navigation of the BoxScrollView.
 class DraggableScrollbar extends StatefulWidget {
   /// The view that will be scrolled with the scroll thumb
-  final BoxScrollView child;
+  final child;
 
   /// A function that builds a thumb using the current configuration
   final ScrollThumbBuilder scrollThumbBuilder;
@@ -172,7 +172,7 @@ class DraggableScrollbar extends StatefulWidget {
     }) {
       final scrollThumb = CustomPaint(
         key: scrollThumbKey,
-        foregroundPainter: ArrowCustomPainter(Colors.grey),
+        foregroundPainter: ArrowCustomPainter(Colors.white),
         child: Material(
           elevation: 4.0,
           child: Container(
@@ -323,7 +323,7 @@ class _DraggableScrollbarState extends State<DraggableScrollbar>
   @override
   void initState() {
     super.initState();
-    _barOffset = 0.0;
+    _barOffset = 135.0;
     _viewOffset = 0.0;
     _isDragInProcess = false;
 
@@ -358,9 +358,9 @@ class _DraggableScrollbarState extends State<DraggableScrollbar>
   double get barMaxScrollExtent =>
       context.size.height - widget.heightScrollThumb;
 
-  double get barMinScrollExtent => 120.0;
+  double get barMinScrollExtent => 0;
 
-  double get viewMaxScrollExtent => widget.controller.position.maxScrollExtent + (widget.controller.position.maxScrollExtent / 4);
+  double get viewMaxScrollExtent => widget.controller.position.maxScrollExtent;
 
   double get viewMinScrollExtent => widget.controller.position.minScrollExtent;
 
